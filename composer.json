@@ -1,5 +1,5 @@
 {
-  "name": "badoo/liveprof",
+  "name": "marfatech/liveprof",
   "type": "library",
   "description": "A performance monitoring system for running on live sites",
   "minimum-stability": "stable",
