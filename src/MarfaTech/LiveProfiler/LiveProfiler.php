@@ -4,7 +4,7 @@
  * @maintainer Timur Shagiakhmetov <timur.shagiakhmetov@corp.badoo.com>
  */
 
-namespace Badoo\LiveProfiler;
+namespace MarfaTech\LiveProfiler;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
@@ -299,11 +299,11 @@ class LiveProfiler
         }
 
         $this->start_callback = function () {
-            \Badoo\LiveProfiler\SimpleProfiler::getInstance()->enable();
+            \MarfaTech\LiveProfiler\SimpleProfiler::getInstance()->enable();
         };
 
         $this->end_callback = function () {
-            return \Badoo\LiveProfiler\SimpleProfiler::getInstance()->disable();
+            return \MarfaTech\LiveProfiler\SimpleProfiler::getInstance()->disable();
         };
 
         return $this;

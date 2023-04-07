@@ -71,7 +71,7 @@ There is an example of usage a profiler with default parameters:
 <?php
 include 'vendor/autoload.php';
 
-\Badoo\LiveProfiler\LiveProfiler::getInstance()->start();
+\MarfaTech\LiveProfiler\LiveProfiler::getInstance()->start();
 // Code is here
 ```
 
@@ -80,8 +80,8 @@ There is an example how to test Live Profiler without any extension and database
 <?php
 include 'vendor/autoload.php';
 
-\Badoo\LiveProfiler\LiveProfiler::getInstance()
-     ->setMode(\Badoo\LiveProfiler\LiveProfiler::MODE_API)
+\MarfaTech\LiveProfiler\LiveProfiler::getInstance()
+     ->setMode(\MarfaTech\LiveProfiler\LiveProfiler::MODE_API)
      ->setApiKey('70366397-97d6-41be-a83c-e9e649c824e1') // a key for guest
      ->useSimpleProfiler() // Use build-in profiler instead of XHProf or its forks
      ->setApp('Demo') // Some unique app name
@@ -89,9 +89,9 @@ include 'vendor/autoload.php';
      
 // Code is here
 // start a timer before each inportant method
-\Badoo\LiveProfiler\SimpleProfiler::getInstance()->startTimer(__METHOD__); // any string can be used as a timer tag
+\MarfaTech\LiveProfiler\SimpleProfiler::getInstance()->startTimer(__METHOD__); // any string can be used as a timer tag
 // stop the timer before the end of the method
-\Badoo\LiveProfiler\SimpleProfiler::getInstance()->endTimer(__METHOD__); // any string can be used as a timer tag
+\MarfaTech\LiveProfiler\SimpleProfiler::getInstance()->endTimer(__METHOD__); // any string can be used as a timer tag
 ```
 
 There is a full list of methods you can use to change options:
@@ -99,8 +99,8 @@ There is a full list of methods you can use to change options:
 <?php
 
 // Start profiling
-\Badoo\LiveProfiler\LiveProfiler::getInstance()
-    ->setMode(\Badoo\LiveProfiler\LiveProfiler::MODE_DB) // optional, MODE_DB - save profiles to db, MODE_FILES - save profiles to files, MODE_API - send profiles to http://liveprof.org/ 
+\MarfaTech\LiveProfiler\LiveProfiler::getInstance()
+    ->setMode(\MarfaTech\LiveProfiler\LiveProfiler::MODE_DB) // optional, MODE_DB - save profiles to db, MODE_FILES - save profiles to files, MODE_API - send profiles to http://liveprof.org/ 
     ->setConnectionString('mysql://db_user:db_password@db_mysql:3306/Profiler?charset=utf8') // optional, you can also set the connection url in the environment variable LIVE_PROFILER_CONNECTION_URL
     ->setPath('/app/data/') // optional, path to save profiles, you can also set the file path in the environment variable LIVE_PROFILER_PATH
     ->setApiKey('api_key') // optional, api key to send profiles and see demo, you can get it on http://liveprof.org/ 
@@ -110,7 +110,7 @@ There is a full list of methods you can use to change options:
     ->setTotalDivider(7000) // optional, profiling starts for 1 of 7000 requests with forces label "All", 10000 by default
     ->setLogger($Logger) // optional, a custom logger implemented \Psr\Log\LoggerInterface
     ->setConnection($Connection) // optional, a custom instance of \Doctrine\DBAL\Connection if you can't use the connection url
-    ->setDataPacker($DatePacker) // optional, a class implemented \Badoo\LiveProfiler\DataPackerInterface to convert array into string
+    ->setDataPacker($DatePacker) // optional, a class implemented \MarfaTech\LiveProfiler\DataPackerInterface to convert array into string
     ->setStartCallback($profiler_start_callback) // optional, set it if you use custom profiler
     ->setEndCallback($profiler_profiler_callback) // optional, set it if you use custom profiler
     ->useXhprof() // optional, force use xhprof as profiler
@@ -126,27 +126,27 @@ If you want to change the Label during running (for instance, after you got some
 <?php
 
 $number = random_int(0, 100);
-$current_label = \Badoo\LiveProfiler\LiveProfiler::getInstance()->getLabel();
-\Badoo\LiveProfiler\LiveProfiler::getInstance()->setLabel($current_label . $number);
+$current_label = \MarfaTech\LiveProfiler\LiveProfiler::getInstance()->getLabel();
+\MarfaTech\LiveProfiler\LiveProfiler::getInstance()->setLabel($current_label . $number);
 ```
 
 if you don't want to save profiling result you can reset it anytime:
 ```php
 <?php
 
-\Badoo\LiveProfiler\LiveProfiler::getInstance()->reset();
+\MarfaTech\LiveProfiler\LiveProfiler::getInstance()->reset();
 ```
 
-After script ends it will call `\Badoo\LiveProfiler\LiveProfiler::getInstance()->end();` on shutdown, but you can call it explicitly after working code.
+After script ends it will call `\MarfaTech\LiveProfiler\LiveProfiler::getInstance()->end();` on shutdown, but you can call it explicitly after working code.
 
 Environment Variables
 =====================
 
 `LIVE_PROFILER_CONNECTION_URL`: [url](https://www.doctrine-project.org/projects/doctrine-dbal/en/2.8/reference/configuration.html#configuration) for the database connection
 
-`LIVE_PROFILER_PATH`: path to save profiles in \Badoo\LiveProfiler\LiveProfiler::MODE_FILES mode
+`LIVE_PROFILER_PATH`: path to save profiles in \MarfaTech\LiveProfiler\LiveProfiler::MODE_FILES mode
 
-`LIVE_PROFILER_API_URL`: api url to send profiles in \Badoo\LiveProfiler\LiveProfiler::MODE_API mode and see demo on [liveprof.org](http://liveprof.org/) 
+`LIVE_PROFILER_API_URL`: api url to send profiles in \MarfaTech\LiveProfiler\LiveProfiler::MODE_API mode and see demo on [liveprof.org](http://liveprof.org/) 
 
 Work flow
 =========

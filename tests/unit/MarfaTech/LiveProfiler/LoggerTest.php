@@ -4,16 +4,16 @@
  * @maintainer Timur Shagiakhmetov <timur.shagiakhmetov@corp.badoo.com>
  */
 
-namespace unit\Badoo\LiveProfiler;
+namespace unit\MarfaTech\LiveProfiler;
 
-class LoggerTest extends \unit\Badoo\BaseTestCase
+class LoggerTest extends \unit\MarfaTech\BaseTestCase
 {
     /**
      * @throws \ReflectionException
      */
     public function testGetLogMsg()
     {
-        $Logger = new \Badoo\LiveProfiler\Logger();
+        $Logger = new \MarfaTech\LiveProfiler\Logger();
         $log_msg = $this->invokeMethod($Logger, 'getLogMsg', ['error', 'Error msg', ['param' => 1]]);
         self::assertEquals(date('Y-m-d H:i:s'). "\terror\tError msg\t{\"param\":1}\n", $log_msg);
     }
@@ -21,7 +21,7 @@ class LoggerTest extends \unit\Badoo\BaseTestCase
     public function testLog()
     {
         $tmp_log_file = tempnam('/tmp', 'live.profiling');
-        $Logger = new \Badoo\LiveProfiler\Logger();
+        $Logger = new \MarfaTech\LiveProfiler\Logger();
         $Logger->setLogFile($tmp_log_file);
         $Logger->log('error', 'Error msg');
 

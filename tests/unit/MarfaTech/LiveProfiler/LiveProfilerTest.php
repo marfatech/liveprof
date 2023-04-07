@@ -4,9 +4,9 @@
  * @maintainer Timur Shagiakhmetov <timur.shagiakhmetov@corp.badoo.com>
  */
 
-namespace unit\Badoo\LiveProfiler;
+namespace unit\MarfaTech\LiveProfiler;
 
-class LiveProfilerTest extends \unit\Badoo\BaseTestCase
+class LiveProfilerTest extends \unit\MarfaTech\BaseTestCase
 {
     public function providerGetAutoLabel()
     {
@@ -35,7 +35,7 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
     {
         $_SERVER['REQUEST_URI'] = $request_uri;
         $_SERVER['SCRIPT_NAME'] = $script_name;
-        $Profiler = new \Badoo\LiveProfiler\LiveProfiler('sqlite:///:memory:');
+        $Profiler = new \MarfaTech\LiveProfiler\LiveProfiler('sqlite:///:memory:');
 
         $label = $this->invokeMethod($Profiler, 'getAutoLabel', []);
         self::assertEquals($expected, $label);
@@ -43,13 +43,13 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
 
     public function testStart()
     {
-        $ProfilerMock = $this->getMockBuilder('\Badoo\LiveProfiler\LiveProfiler')
+        $ProfilerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\LiveProfiler')
             ->disableOriginalConstructor()
             ->setMethods(['end'])
             ->getMock();
         $ProfilerMock->method('end')->willReturn(true);
 
-        /** @var \Badoo\LiveProfiler\LiveProfiler $ProfilerMock */
+        /** @var \MarfaTech\LiveProfiler\LiveProfiler $ProfilerMock */
         $ProfilerMock
             ->setDivider(1)
             ->setStartCallback(function () {
@@ -64,7 +64,7 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testAlreadyStarted()
     {
-        $Profiler = new \Badoo\LiveProfiler\LiveProfiler();
+        $Profiler = new \MarfaTech\LiveProfiler\LiveProfiler();
 
         $this->setProtectedProperty($Profiler, 'is_enabled', true);
 
@@ -74,13 +74,13 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
 
     public function testStartWithoutCallback()
     {
-        $ProfilerMock = $this->getMockBuilder('\Badoo\LiveProfiler\LiveProfiler')
+        $ProfilerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\LiveProfiler')
             ->disableOriginalConstructor()
             ->setMethods(['end'])
             ->getMock();
         $ProfilerMock->method('end')->willReturn(true);
 
-        /** @var \Badoo\LiveProfiler\LiveProfiler $ProfilerMock */
+        /** @var \MarfaTech\LiveProfiler\LiveProfiler $ProfilerMock */
         $result = $ProfilerMock->start();
 
         self::assertTrue($result);
@@ -88,13 +88,13 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
 
     public function testStartTotal()
     {
-        $ProfilerMock = $this->getMockBuilder('\Badoo\LiveProfiler\LiveProfiler')
+        $ProfilerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\LiveProfiler')
             ->disableOriginalConstructor()
             ->setMethods(['end'])
             ->getMock();
         $ProfilerMock->method('end')->willReturn(true);
 
-        /** @var \Badoo\LiveProfiler\LiveProfiler $ProfilerMock */
+        /** @var \MarfaTech\LiveProfiler\LiveProfiler $ProfilerMock */
         $ProfilerMock
             ->setTotalDivider(1)
             ->setStartCallback(function () {
@@ -110,9 +110,9 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testEnd()
     {
-        $DataPacker = new \Badoo\LiveProfiler\DataPacker();
+        $DataPacker = new \MarfaTech\LiveProfiler\DataPacker();
 
-        $ProfilerMock = $this->getMockBuilder('\Badoo\LiveProfiler\LiveProfiler')
+        $ProfilerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\LiveProfiler')
             ->disableOriginalConstructor()
             ->setMethods(['save'])
             ->getMock();
@@ -120,7 +120,7 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
 
         $this->setProtectedProperty($ProfilerMock, 'is_enabled', true);
 
-        /** @var \Badoo\LiveProfiler\LiveProfiler $ProfilerMock */
+        /** @var \MarfaTech\LiveProfiler\LiveProfiler $ProfilerMock */
         $ProfilerMock
             ->setDataPacker($DataPacker)
             ->setEndCallback(function () {
@@ -136,7 +136,7 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testReset()
     {
-        $Profiler = new \Badoo\LiveProfiler\LiveProfiler();
+        $Profiler = new \MarfaTech\LiveProfiler\LiveProfiler();
         $Profiler->setEndCallback(function () {});
 
         $this->setProtectedProperty($Profiler, 'is_enabled', true);
@@ -153,7 +153,7 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testEndWithoutCallback()
     {
-        $Profiler = new \Badoo\LiveProfiler\LiveProfiler();
+        $Profiler = new \MarfaTech\LiveProfiler\LiveProfiler();
 
         $this->setProtectedProperty($Profiler, 'is_enabled', true);
         $this->setProtectedProperty($Profiler, 'end_callback', null);
@@ -167,14 +167,14 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testEndErrorInProfilerData()
     {
-        $LoggerMock = $this->getMockBuilder('\Badoo\LiveProfiler\Logger')
+        $LoggerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\Logger')
             ->disableOriginalConstructor()
             ->setMethods(['warning'])
             ->getMock();
         $LoggerMock->method('warning')->willReturn(true);
         /** @var \Psr\Log\LoggerInterface $LoggerMock */
 
-        $Profiler = new \Badoo\LiveProfiler\LiveProfiler('sqlite:///:memory:');
+        $Profiler = new \MarfaTech\LiveProfiler\LiveProfiler('sqlite:///:memory:');
         $Profiler->setLogger($LoggerMock);
         $Profiler->setDivider(1);
         $Profiler->setStartCallback(function () {
@@ -194,20 +194,20 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testEndSaveFalse()
     {
-        $LoggerMock = $this->getMockBuilder('\Badoo\LiveProfiler\Logger')
+        $LoggerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\Logger')
             ->disableOriginalConstructor()
             ->setMethods(['warning'])
             ->getMock();
         $LoggerMock->method('warning')->willReturn(true);
         /** @var \Psr\LOg\LoggerInterface $LoggerMock */
 
-        $ProfilerMock = $this->getMockBuilder('\Badoo\LiveProfiler\LiveProfiler')
+        $ProfilerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\LiveProfiler')
             ->setConstructorArgs(['sqlite:///:memory:'])
             ->setMethods(['save'])
             ->getMock();
         $ProfilerMock->method('save')->willReturn(false);
 
-        /** @var \Badoo\LiveProfiler\LiveProfiler $ProfilerMock */
+        /** @var \MarfaTech\LiveProfiler\LiveProfiler $ProfilerMock */
         $ProfilerMock->setLogger($LoggerMock);
         $ProfilerMock->setDivider(1);
         $ProfilerMock->setStartCallback(function () {
@@ -227,7 +227,7 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testEndErrorInSaving()
     {
-        $LoggerMock = $this->getMockBuilder('\Badoo\LiveProfiler\Logger')
+        $LoggerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\Logger')
             ->disableOriginalConstructor()
             ->setMethods(['warning', 'error'])
             ->getMock();
@@ -235,13 +235,13 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
         $LoggerMock->method('error')->willReturn(true);
         /** @var \Psr\LOg\LoggerInterface $LoggerMock */
 
-        $ProfilerMock = $this->getMockBuilder('\Badoo\LiveProfiler\LiveProfiler')
+        $ProfilerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\LiveProfiler')
             ->setConstructorArgs(['sqlite:///:memory:'])
             ->setMethods(['save'])
             ->getMock();
         $ProfilerMock->method('save')->willReturn(false);
 
-        /** @var \Badoo\LiveProfiler\LiveProfiler $ProfilerMock */
+        /** @var \MarfaTech\LiveProfiler\LiveProfiler $ProfilerMock */
         $ProfilerMock->setLogger($LoggerMock);
         $ProfilerMock->setDivider(1);
         $ProfilerMock->setStartCallback(function () {
@@ -258,7 +258,7 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
 
     public function testEndWithoutStartProfiling()
     {
-        $Profiler = new \Badoo\LiveProfiler\LiveProfiler('sqlite:///:memory:');
+        $Profiler = new \MarfaTech\LiveProfiler\LiveProfiler('sqlite:///:memory:');
 
         $result = $Profiler->end();
         self::assertTrue($result);
@@ -270,12 +270,12 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
     public function testSettersGetters()
     {
         /** @var \Psr\Log\LoggerInterface $LoggerMock */
-        $LoggerMock = $this->getMockBuilder('\Badoo\LiveProfiler\Logger')
+        $LoggerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\Logger')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
 
-        $DataPacker = new \Badoo\LiveProfiler\DataPacker();
+        $DataPacker = new \MarfaTech\LiveProfiler\DataPacker();
 
         /** @var \Doctrine\DBAL\Connection $ConnectionMock */
         $ConnectionMock = $this->getMockBuilder('\Doctrine\DBAL\Connection')
@@ -293,7 +293,7 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
         $test_path = 'test_path';
         $test_api_key = 'test_api_key';
 
-        $Profiler = new \Badoo\LiveProfiler\LiveProfiler('sqlite:///:memory:');
+        $Profiler = new \MarfaTech\LiveProfiler\LiveProfiler('sqlite:///:memory:');
 
         $Profiler
             ->setMode($test_mode)
@@ -345,8 +345,8 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
 
     public function testGetInstance()
     {
-        $Profiler1 = \Badoo\LiveProfiler\LiveProfiler::getInstance();
-        $Profiler2 = \Badoo\LiveProfiler\LiveProfiler::getInstance();
+        $Profiler1 = \MarfaTech\LiveProfiler\LiveProfiler::getInstance();
+        $Profiler2 = \MarfaTech\LiveProfiler\LiveProfiler::getInstance();
 
         static::assertSame($Profiler1, $Profiler2);
     }
@@ -356,7 +356,7 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testCreateTable()
     {
-        $Profiler = new \Badoo\LiveProfiler\LiveProfiler('sqlite:///:memory:');
+        $Profiler = new \MarfaTech\LiveProfiler\LiveProfiler('sqlite:///:memory:');
 
         $result = $Profiler->createTable();
 
@@ -368,14 +368,14 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testCreateTableError()
     {
-        $LoggerMock = $this->getMockBuilder('\Badoo\LiveProfiler\Logger')
+        $LoggerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\Logger')
             ->disableOriginalConstructor()
             ->setMethods(['error'])
             ->getMock();
         $LoggerMock->method('error')->willReturn(true);
         /** @var \Psr\Log\LoggerInterface $LoggerMock */
 
-        $Profiler = new \Badoo\LiveProfiler\LiveProfiler('drizzle-pdo-mysql://localhost:4486/foo?charset=UTF-8');
+        $Profiler = new \MarfaTech\LiveProfiler\LiveProfiler('drizzle-pdo-mysql://localhost:4486/foo?charset=UTF-8');
         $Profiler->setLogger($LoggerMock);
         $result = $Profiler->createTable();
 
@@ -388,7 +388,7 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testSave()
     {
-        $Profiler = new \Badoo\LiveProfiler\LiveProfiler('sqlite:///:memory:');
+        $Profiler = new \MarfaTech\LiveProfiler\LiveProfiler('sqlite:///:memory:');
         $Profiler->createTable();
 
         $result = $this->invokeMethod($Profiler, 'save', ['app', 'label', '1970-01-01', ['data']]);
@@ -400,9 +400,9 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testSaveToFile()
     {
-        $Profiler = new \Badoo\LiveProfiler\LiveProfiler(
+        $Profiler = new \MarfaTech\LiveProfiler\LiveProfiler(
             '/tmp',
-            \Badoo\LiveProfiler\LiveProfiler::MODE_FILES
+            \MarfaTech\LiveProfiler\LiveProfiler::MODE_FILES
         );
 
         $result = $this->invokeMethod($Profiler, 'save', ['app', 'label', '1970-01-01', ['data']]);
@@ -414,9 +414,9 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testSendToAPI()
     {
-        $Profiler = new \Badoo\LiveProfiler\LiveProfiler(
+        $Profiler = new \MarfaTech\LiveProfiler\LiveProfiler(
             '',
-            \Badoo\LiveProfiler\LiveProfiler::MODE_API
+            \MarfaTech\LiveProfiler\LiveProfiler::MODE_API
         );
         $Profiler->setApiKey('70366397-97d6-41be-a83c-e9e649c824e1');
 
@@ -429,7 +429,7 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testConvertSampleDataToCommonFormat()
     {
-        $Profiler = new \Badoo\LiveProfiler\LiveProfiler('sqlite:///:memory:');
+        $Profiler = new \MarfaTech\LiveProfiler\LiveProfiler('sqlite:///:memory:');
 
         define('XHPROF_SAMPLING_BEGIN', 1000);
 
@@ -461,15 +461,15 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testUseXhprofSample()
     {
-        $ProfilerMock = $this->getMockBuilder('\Badoo\LiveProfiler\LiveProfiler')
+        $ProfilerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\LiveProfiler')
             ->disableOriginalConstructor()
             ->setMethods(['__construct'])
             ->getMock();
 
-        /** @var \Badoo\LiveProfiler\LiveProfiler $ProfilerMock */
+        /** @var \MarfaTech\LiveProfiler\LiveProfiler $ProfilerMock */
         $result = $ProfilerMock->useXhprofSample();
 
-        self::assertInstanceOf('\Badoo\LiveProfiler\LiveProfiler', $result);
+        self::assertInstanceOf('\MarfaTech\LiveProfiler\LiveProfiler', $result);
         $start_callback = $this->getProtectedProperty($ProfilerMock, 'start_callback');
         $end_callback = $this->getProtectedProperty($ProfilerMock, 'end_callback');
         self::assertNotEmpty($start_callback);
@@ -483,26 +483,26 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testUseXhprofSampleAfterStart()
     {
-        $LoggerMock = $this->getMockBuilder('\Badoo\LiveProfiler\Logger')
+        $LoggerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\Logger')
             ->disableOriginalConstructor()
             ->setMethods(['warning'])
             ->getMock();
         $LoggerMock->method('warning')->willReturn(true);
         /** @var \Psr\LOg\LoggerInterface $LoggerMock */
 
-        $ProfilerMock = $this->getMockBuilder('\Badoo\LiveProfiler\LiveProfiler')
+        $ProfilerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\LiveProfiler')
             ->disableOriginalConstructor()
             ->setMethods(['__construct'])
             ->getMock();
 
         $this->setProtectedProperty($ProfilerMock, 'is_enabled', true);
 
-        /** @var \Badoo\LiveProfiler\LiveProfiler $ProfilerMock */
+        /** @var \MarfaTech\LiveProfiler\LiveProfiler $ProfilerMock */
         $result = $ProfilerMock
             ->setLogger($LoggerMock)
             ->useXhprofSample();
 
-        self::assertInstanceOf('\Badoo\LiveProfiler\LiveProfiler', $result);
+        self::assertInstanceOf('\MarfaTech\LiveProfiler\LiveProfiler', $result);
     }
 
     /**
@@ -510,15 +510,15 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testUseXhprof()
     {
-        $ProfilerMock = $this->getMockBuilder('\Badoo\LiveProfiler\LiveProfiler')
+        $ProfilerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\LiveProfiler')
             ->disableOriginalConstructor()
             ->setMethods(['__construct'])
             ->getMock();
 
-        /** @var \Badoo\LiveProfiler\LiveProfiler $ProfilerMock */
+        /** @var \MarfaTech\LiveProfiler\LiveProfiler $ProfilerMock */
         $result = $ProfilerMock->useXhprof();
 
-        self::assertInstanceOf('\Badoo\LiveProfiler\LiveProfiler', $result);
+        self::assertInstanceOf('\MarfaTech\LiveProfiler\LiveProfiler', $result);
 
         $start_callback = $this->getProtectedProperty($ProfilerMock, 'start_callback');
         $end_callback = $this->getProtectedProperty($ProfilerMock, 'end_callback');
@@ -533,26 +533,26 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testUseXhprofAfterStart()
     {
-        $LoggerMock = $this->getMockBuilder('\Badoo\LiveProfiler\Logger')
+        $LoggerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\Logger')
             ->disableOriginalConstructor()
             ->setMethods(['warning'])
             ->getMock();
         $LoggerMock->method('warning')->willReturn(true);
         /** @var \Psr\LOg\LoggerInterface $LoggerMock */
 
-        $ProfilerMock = $this->getMockBuilder('\Badoo\LiveProfiler\LiveProfiler')
+        $ProfilerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\LiveProfiler')
             ->disableOriginalConstructor()
             ->setMethods(['__construct'])
             ->getMock();
 
         $this->setProtectedProperty($ProfilerMock, 'is_enabled', true);
 
-        /** @var \Badoo\LiveProfiler\LiveProfiler $ProfilerMock */
+        /** @var \MarfaTech\LiveProfiler\LiveProfiler $ProfilerMock */
         $result = $ProfilerMock
             ->setLogger($LoggerMock)
             ->useXhprof();
 
-        self::assertInstanceOf('\Badoo\LiveProfiler\LiveProfiler', $result);
+        self::assertInstanceOf('\MarfaTech\LiveProfiler\LiveProfiler', $result);
     }
 
     /**
@@ -560,15 +560,15 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testUseUprofiler()
     {
-        $ProfilerMock = $this->getMockBuilder('\Badoo\LiveProfiler\LiveProfiler')
+        $ProfilerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\LiveProfiler')
             ->disableOriginalConstructor()
             ->setMethods(['__construct'])
             ->getMock();
 
-        /** @var \Badoo\LiveProfiler\LiveProfiler $ProfilerMock */
+        /** @var \MarfaTech\LiveProfiler\LiveProfiler $ProfilerMock */
         $result = $ProfilerMock->useUprofiler();
 
-        self::assertInstanceOf('\Badoo\LiveProfiler\LiveProfiler', $result);
+        self::assertInstanceOf('\MarfaTech\LiveProfiler\LiveProfiler', $result);
         $start_callback = $this->getProtectedProperty($ProfilerMock, 'start_callback');
         $end_callback = $this->getProtectedProperty($ProfilerMock, 'end_callback');
         self::assertNotEmpty($start_callback);
@@ -582,26 +582,26 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testUseUprofilerAfterStart()
     {
-        $LoggerMock = $this->getMockBuilder('\Badoo\LiveProfiler\Logger')
+        $LoggerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\Logger')
             ->disableOriginalConstructor()
             ->setMethods(['warning'])
             ->getMock();
         $LoggerMock->method('warning')->willReturn(true);
         /** @var \Psr\LOg\LoggerInterface $LoggerMock */
 
-        $ProfilerMock = $this->getMockBuilder('\Badoo\LiveProfiler\LiveProfiler')
+        $ProfilerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\LiveProfiler')
             ->disableOriginalConstructor()
             ->setMethods(['__construct'])
             ->getMock();
 
         $this->setProtectedProperty($ProfilerMock, 'is_enabled', true);
 
-        /** @var \Badoo\LiveProfiler\LiveProfiler $ProfilerMock */
+        /** @var \MarfaTech\LiveProfiler\LiveProfiler $ProfilerMock */
         $result = $ProfilerMock
             ->setLogger($LoggerMock)
             ->useUprofiler();
 
-        self::assertInstanceOf('\Badoo\LiveProfiler\LiveProfiler', $result);
+        self::assertInstanceOf('\MarfaTech\LiveProfiler\LiveProfiler', $result);
     }
 
     /**
@@ -609,15 +609,15 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testUseTidyWays()
     {
-        $ProfilerMock = $this->getMockBuilder('\Badoo\LiveProfiler\LiveProfiler')
+        $ProfilerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\LiveProfiler')
             ->disableOriginalConstructor()
             ->setMethods(['__construct'])
             ->getMock();
 
-        /** @var \Badoo\LiveProfiler\LiveProfiler $ProfilerMock */
+        /** @var \MarfaTech\LiveProfiler\LiveProfiler $ProfilerMock */
         $result = $ProfilerMock->useTidyWays();
 
-        self::assertInstanceOf('\Badoo\LiveProfiler\LiveProfiler', $result);
+        self::assertInstanceOf('\MarfaTech\LiveProfiler\LiveProfiler', $result);
         $start_callback = $this->getProtectedProperty($ProfilerMock, 'start_callback');
         $end_callback = $this->getProtectedProperty($ProfilerMock, 'end_callback');
         self::assertNotEmpty($start_callback);
@@ -631,38 +631,38 @@ class LiveProfilerTest extends \unit\Badoo\BaseTestCase
      */
     public function testUseTidyWaysAfterStart()
     {
-        $LoggerMock = $this->getMockBuilder('\Badoo\LiveProfiler\Logger')
+        $LoggerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\Logger')
             ->disableOriginalConstructor()
             ->setMethods(['warning'])
             ->getMock();
         $LoggerMock->method('warning')->willReturn(true);
         /** @var \Psr\LOg\LoggerInterface $LoggerMock */
 
-        $ProfilerMock = $this->getMockBuilder('\Badoo\LiveProfiler\LiveProfiler')
+        $ProfilerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\LiveProfiler')
             ->disableOriginalConstructor()
             ->setMethods(['__construct'])
             ->getMock();
 
         $this->setProtectedProperty($ProfilerMock, 'is_enabled', true);
 
-        /** @var \Badoo\LiveProfiler\LiveProfiler $ProfilerMock */
+        /** @var \MarfaTech\LiveProfiler\LiveProfiler $ProfilerMock */
         $result = $ProfilerMock
             ->setLogger($LoggerMock)
             ->useTidyWays();
 
-        self::assertInstanceOf('\Badoo\LiveProfiler\LiveProfiler', $result);
+        self::assertInstanceOf('\MarfaTech\LiveProfiler\LiveProfiler', $result);
     }
 
     public function testDetectProfiler()
     {
-        $ProfilerMock = $this->getMockBuilder('\Badoo\LiveProfiler\LiveProfiler')
+        $ProfilerMock = $this->getMockBuilder('\MarfaTech\LiveProfiler\LiveProfiler')
             ->disableOriginalConstructor()
             ->setMethods(['__construct'])
             ->getMock();
 
-        /** @var \Badoo\LiveProfiler\LiveProfiler $ProfilerMock */
+        /** @var \MarfaTech\LiveProfiler\LiveProfiler $ProfilerMock */
         $result = $ProfilerMock->detectProfiler();
 
-        self::assertInstanceOf('\Badoo\LiveProfiler\LiveProfiler', $result);
+        self::assertInstanceOf('\MarfaTech\LiveProfiler\LiveProfiler', $result);
     }
 }

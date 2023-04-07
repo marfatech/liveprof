@@ -4,14 +4,14 @@
  * @maintainer Timur Shagiakhmetov <timur.shagiakhmetov@corp.badoo.com>
  */
 
-namespace unit\Badoo\LiveProfiler;
+namespace unit\MarfaTech\LiveProfiler;
 
-class DataPackerTest extends \unit\Badoo\BaseTestCase
+class DataPackerTest extends \unit\MarfaTech\BaseTestCase
 {
     public function testPack()
     {
         $data = ['a' => 1];
-        $Packer = new \Badoo\LiveProfiler\DataPacker();
+        $Packer = new \MarfaTech\LiveProfiler\DataPacker();
 
         $result = $Packer->pack($data);
 
@@ -24,7 +24,7 @@ class DataPackerTest extends \unit\Badoo\BaseTestCase
     public function testUnPack()
     {
         $data = ['a' => 1];
-        $Packer = new \Badoo\LiveProfiler\DataPacker();
+        $Packer = new \MarfaTech\LiveProfiler\DataPacker();
         $packed_data = $Packer->pack($data);
 
         $result = $Packer->unpack($packed_data);

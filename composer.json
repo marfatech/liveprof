@@ -22,9 +22,9 @@
   },
   "autoload": {
     "psr-4": {
-      "Badoo\\LiveProfiler\\": "src/Badoo/LiveProfiler"}
+      "MarfaTech\\LiveProfiler\\": "src/MarfaTech/LiveProfiler"}
   },
   "autoload-dev": {
-    "psr-4": {"unit\\Badoo\\": "tests/unit/Badoo"}
+    "psr-4": {"unit\\MarfaTech\\": "tests/unit/MarfaTech"}
   }
 }
